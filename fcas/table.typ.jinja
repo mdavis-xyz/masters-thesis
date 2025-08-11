@@ -1,0 +1,86 @@
+#table(
+    columns: {{ 2 + (models | length) }},
+    align: horizon,
+    stroke: none,
+    table.hline(stroke: 2pt), // top rule
+    [], [],
+    {% for _ in models %}
+    [({{ loop.index }}){% if loop.last %}#super([†]){% endif %}],
+    {% endfor %}
+    table.hline(), // under model number
+    {% for (regressor_col_name, regressor_info) in coefficients_to_include.items() %}
+        table.cell(
+            rowspan: 2,
+        )[
+            {{ regressor_info["label"] }}
+        ],
+        table.cell(
+            rowspan: 2,
+        )[
+            {{ regressor_info["param"] | default('') }}
+        ],
+        {% for model in models %}
+        
+        [
+            // model {{ loop.index }} {{ regressor_col_name }}, {{ regressor_display_name }} point estimate
+            {% if regressor_col_name in model["coefficients"] %}
+                {{ model['coefficients'][regressor_col_name]['point_estimate'] }}{{ '\*' * model["coefficients"][regressor_col_name]["stars"] }}
+            {% endif %}
+        ],
+        {% endfor %}
+        {% for model in models %}
+        
+        [
+            // model {{ loop.index }} {{ regressor_col_name }}, {{ regressor_display_name }} standard error
+            {% if regressor_col_name in model["coefficients"] %}
+                ({{ model['coefficients'][regressor_col_name]['std_error'] }})
+            {% endif %}
+        ],
+        {% endfor %}
+    {% endfor %}
+    table.hline(),
+    [Electrical Controls], [],
+    {% for model in models %}
+        [
+            {% if model["controls"] %}
+                ✓
+            {% endif %}
+        ],
+    {% endfor %}
+    table.cell(rowspan: 2)[ARIMA],
+    [(p,d,q)],
+    {% for model in models %}
+        [
+            ({{ model['metadata']['order'] | join(', ') }})
+        ],
+    {% endfor %}
+    [(P, D, Q)],
+    {% for model in models %}
+        [
+            ({{ model['metadata']['seasonal'] | join(', ') }})
+        ],
+    {% endfor %}
+    [Observations], [],
+    {% for model in models %}
+        [
+            {{ model['metadata']['n_obs'][0] }}
+        ],
+    {% endfor %}
+    table.hline(stroke: 2pt), // bottom rule
+)
+
+
+#align(right)[
+  #text(0.7em)[
+      † Preferred specification; 
+        {% for level in star_levels -%}
+            {{ '\*' * loop.index }}
+            {% if not loop.last %}, {% endif -%}
+        {% endfor -%} 
+        Significant at 
+        {% for level in star_levels -%}
+            {{ (level * 100)|int }}%{% if not loop.last %}{% if loop.index == star_levels|length - 1 %} and {% else %}, {% endif %}{% endif -%}
+        {% endfor -%} 
+        levels
+  ]
+]

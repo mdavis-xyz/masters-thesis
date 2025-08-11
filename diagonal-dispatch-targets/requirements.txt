@@ -1,0 +1,12 @@
+polars
+jupyterlab
+nemosis
+pyomo
+plotly
+black
+jupyter-black
+isort
+kaleido
+tqdm
+
+fastexcel

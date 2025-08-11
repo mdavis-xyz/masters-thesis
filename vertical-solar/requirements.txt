@@ -1,0 +1,10 @@
+polars
+astral
+jupyterlab
+nemosis
+plotly
+black
+isort
+jupyterlab-code-formatter
+tqdm
+kaleido

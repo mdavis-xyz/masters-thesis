@@ -1,0 +1,16 @@
+
+astral
+black
+fastexcel
+isort
+jinja2
+jupyter-black
+jupyterlab
+jupyterlab-code-formatter
+kaleido<=0.2.1
+nemosis
+plotly
+pandas
+polars
+pyomo
+tqdm

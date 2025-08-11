@@ -1,0 +1,6 @@
+plotly
+polars
+kaleido<=0.2.1
+nemosis
+jupyterlab
+jinja2
