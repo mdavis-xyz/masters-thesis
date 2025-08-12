@@ -8,5 +8,4 @@ jupyter-black
 isort
 kaleido
 tqdm
-
 fastexcel
