@@ -1,4 +1,3 @@
-
 astral
 black
 fastexcel
@@ -13,4 +12,5 @@ plotly
 pandas
 polars
 pyomo
+statsmodels
 tqdm

@@ -3,9 +3,9 @@
 set -e
 set -x
 
-SWAPFILE=/swapfile
+SWAPFILE=~/swapfile
 
-fallocate -l 100G $SWAPFILE
+fallocate -l 30G $SWAPFILE
 chmod 600 $SWAPFILE
 mkswap $SWAPFILE
 swapon $SWAPFILE
